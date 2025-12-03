@@ -7,6 +7,7 @@ import expressLayouts from "express-ejs-layouts"
 import { AppDataSource } from "./data-source"
 import branchRoutes from "./routes/branch"
 import adminRoutes from "./routes/admin"
+import usersRoutes from "./routes/usersRoutes"
 
 dotenv.config()
 
@@ -24,7 +25,7 @@ app.use(expressLayouts)
 app.set("layout", "layout")
 
 // Serve static files
-app.use("/uploads", express.static(path.join(__dirname, "uploads")))
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")))
 app.use("/public", express.static(path.join(__dirname, "public")))
 
 // -------------------- Views Setup -------------------- //
@@ -34,6 +35,7 @@ app.set("views", path.join(__dirname, "views"))
 // -------------------- Routes -------------------- //
 app.use("/api/branches", branchRoutes)
 app.use("/admin", adminRoutes)
+app.use("/users", usersRoutes)
 
 // Test route
 app.get("/", (req: Request, res: Response) => {

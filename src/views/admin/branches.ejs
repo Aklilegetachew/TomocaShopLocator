@@ -1,0 +1,132 @@
+<div class="max-w-xl mx-auto mt-6 px-4">
+  <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Branches</h2>
+
+  <% if (!branches || branches.length === 0) { %>
+  <div class="text-center py-12 bg-white rounded-lg shadow-sm">
+    <svg
+      class="mx-auto h-12 w-12 text-gray-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+      ></path>
+    </svg>
+    <h3 class="mt-2 text-base font-semibold text-gray-900">
+      No branches found.
+    </h3>
+    <p class="mt-1 text-sm text-gray-500">
+      Use the floating button below to add the first branch.
+    </p>
+  </div>
+  <% } else { %>
+
+  <div class="space-y-4">
+    <% branches.forEach(branch => { %>
+    <div
+      class="bg-white p-4 flex items-center rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-200"
+    >
+      <div
+        class="flex-shrink-0 w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4"
+      >
+        <svg
+          class="w-6 h-6 text-orange-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0v-4a1 1 0 00-1-1h-2a1 1 0 00-1 1v4m7-4h-4"
+          ></path>
+        </svg>
+      </div>
+
+      <div class="flex-grow min-w-0">
+        <div class="text-lg font-semibold text-gray-900 truncate">
+          <%= branch.name %>
+        </div>
+        <div class="text-sm text-gray-500 truncate"><%= branch.address %></div>
+      </div>
+
+      <div class="flex space-x-3 ml-4 flex-shrink-0">
+        <a
+          href="/admin/branches/edit/<%= branch.id %>"
+          class="text-gray-500 hover:text-blue-600 transition"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+            ></path>
+          </svg>
+        </a>
+
+        <form
+          action="/api/branches/<%= branch.id %>/delete"
+          method="POST"
+          onsubmit="return confirm('Delete <%= branch.name %>?');"
+        >
+          <button
+            type="submit"
+            class="text-gray-500 hover:text-red-600 transition"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              ></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% } %>
+</div>
+
+<a
+  href="/admin/branches/create"
+  class="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-xl bg-orange-500 text-white flex items-center justify-center z-50 hover:bg-orange-600 transition duration-300 transform hover:scale-105"
+  aria-label="Add New Branch"
+>
+  <svg
+    class="w-6 h-6"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 4v16m8-8H4"
+    ></path>
+  </svg>
+</a>

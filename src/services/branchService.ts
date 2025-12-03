@@ -90,7 +90,12 @@ export const getNearestBranch = async (
     )
 
     for (const b of branches) {
-      const d = utils.calculateDistance(userLat, userLng, b.latitude, b.longitude)
+      const d = utils.calculateDistance(
+        userLat,
+        userLng,
+        b.latitude,
+        b.longitude
+      )
       if (d < minDist) {
         nearest = b
         minDist = d
@@ -98,6 +103,43 @@ export const getNearestBranch = async (
     }
 
     return { success: true, data: nearest }
+  } catch (err: any) {
+    return { success: false, error: err.message }
+  }
+}
+
+export const updateBranch = async (
+  id: number,
+  name: string,
+  address: string,
+  latitude: number,
+  longitude: number,
+  photo?: string
+): Promise<{ success: boolean; data?: Branch; error?: string }> => {
+  try {
+    const branch = await branchRepository.findOneBy({ id })
+    if (!branch) throw new Error("Branch not found")
+
+    branch.name = name
+    branch.address = address
+    branch.latitude = latitude
+    branch.longitude = longitude
+    if (photo) branch.photo = photo
+
+    const updated = await branchRepository.save(branch)
+    return { success: true, data: updated }
+  } catch (err: any) {
+    return { success: false, error: err.message }
+  }
+}
+
+export const getBranchById = async (
+  id: number
+): Promise<{ success: boolean; data?: Branch; error?: string }> => {
+  try {
+    const branch = await branchRepository.findOneBy({ id })
+    if (!branch) throw new Error("Branch not found")
+    return { success: true, data: branch }
   } catch (err: any) {
     return { success: false, error: err.message }
   }

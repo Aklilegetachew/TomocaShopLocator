@@ -30,15 +30,16 @@ router.post(
     )
 
     if (!result.success) return res.status(400).json(result)
-    res.json(result)
+    // res.json(result)
+    res.redirect("/admin/branches")
   }
 )
 
 // ===== Delete a branch =====
-router.delete("/:id", async (req: Request, res: Response) => {
+router.post("/:id/delete", async (req: Request, res: Response) => {
   const result = await branchService.deleteBranch(parseInt(req.params.id))
   if (!result.success) return res.status(404).json(result)
-  res.json(result)
+  res.redirect("/admin/branches")
 })
 
 // ===== List all branches =====
@@ -54,5 +55,26 @@ router.get("/:id/map", async (req: Request, res: Response) => {
   if (!result.success) return res.status(404).json(result)
   res.json(result)
 })
+
+router.post(
+  "/:id/update",
+  upload.single("photo"),
+  async (req: Request, res: Response) => {
+    const { name, latitude, longitude, address } = req.body
+    const photo = req.file ? req.file.filename : undefined
+
+    const result = await branchService.updateBranch(
+      parseInt(req.params.id),
+      name,
+      address,
+      parseFloat(latitude),
+      parseFloat(longitude),
+      photo
+    )
+
+    if (!result.success) return res.status(400).json(result)
+    res.redirect("/admin/branches")
+  }
+)
 
 export default router

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch ./src -e ts --exec ts-node ./src/index.ts",
     "watch:css": "npx @tailwindcss/cli -i ./src/public/css/tailwind.css -o ./src/public/css/app.css --watch",
-    "build": "tsc",
+    "build": "tsc && cpx \"src/views/**/*\" dist/views && cpx \"src/public/**/*\" dist/public",
     "start": "node dist/index.js"
   },
   "author": "",
@@ -33,6 +33,7 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^24.10.1",
     "autoprefixer": "^10.4.22",
+    "cpx": "^1.5.0",
     "nodemon": "^3.1.11",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.17",

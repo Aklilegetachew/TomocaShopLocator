@@ -115,7 +115,6 @@ bot.on("location", async (ctx) => {
     ctx.reply("Error fetching nearest branch: " + err.message)
   }
 })
-
-// ===== Launch bot =====
-bot.launch()
 console.log("TomocaNearbyBot (Telegraf) is running...")
+// ===== Launch bot =====
+export default bot

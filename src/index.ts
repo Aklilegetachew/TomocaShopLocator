@@ -9,6 +9,8 @@ import branchRoutes from "./routes/branch"
 import adminRoutes from "./routes/admin"
 import usersRoutes from "./routes/usersRoutes"
 
+import bot from "./bot"
+
 dotenv.config()
 
 const app = express()
@@ -23,6 +25,19 @@ app.use(express.json())
 // EJS Layouts
 app.use(expressLayouts)
 app.set("layout", "layout")
+
+// Webhook setup
+const WEBHOOK_PATH = `/webhook/${process.env.TELEGRAM_BOT_TOKEN}`
+const WEBHOOK_URL = `${process.env.WEBHOOK_DOMAIN}${WEBHOOK_PATH}`
+
+// Attach Telegram webhook
+app.use(bot.webhookCallback(WEBHOOK_PATH))
+
+// Set webhook with Telegram
+bot.telegram
+  .setWebhook(WEBHOOK_URL)
+  .then(() => console.log("Telegram webhook set:", WEBHOOK_URL))
+  .catch(console.error)
 
 // Serve static files
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")))
